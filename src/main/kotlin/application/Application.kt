@@ -1,20 +1,23 @@
 package application
 
-import androidx.compose.material.MaterialTheme
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.window.singleWindowApplication
 import di.appModule
 import navigation.Navigation
 import org.koin.core.context.startKoin
+import theme.StubTheme
 import java.awt.FileDialog
 import java.io.File
+
+const val appName = "Stub"
 
 fun main() {
     startKoin {
         modules(appModule)
     }
 
-    singleWindowApplication {
-        MaterialTheme {
+    singleWindowApplication(title = appName) {
+        StubTheme(isDarkTheme = isSystemInDarkTheme()) {
             Navigation(openFileDialog = {
                 FileDialog(window, "Upload files", FileDialog.LOAD).apply {
                     setFilenameFilter { _, name -> name.endsWith(".proto") }
