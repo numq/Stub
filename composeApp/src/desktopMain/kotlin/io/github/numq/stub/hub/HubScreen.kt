@@ -1,4 +1,4 @@
-package hub
+package io.github.numq.stub.hub
 
 import androidx.compose.foundation.draganddrop.dragAndDropTarget
 import androidx.compose.foundation.layout.fillMaxSize

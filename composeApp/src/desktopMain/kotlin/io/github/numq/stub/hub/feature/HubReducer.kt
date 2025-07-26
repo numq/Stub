@@ -4,7 +4,7 @@ import io.github.numq.stub.feature.Reducer
 import io.github.numq.stub.file.DeleteFile
 import io.github.numq.stub.file.GetFiles
 import io.github.numq.stub.file.UploadFile
-import hub.SelectedService
+import io.github.numq.stub.hub.SelectedService
 import io.github.numq.stub.proto.ProtoFile
 
 class HubReducer(

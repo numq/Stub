@@ -1,4 +1,4 @@
-package hub
+package io.github.numq.stub.hub
 
 import io.github.numq.stub.proto.ProtoFile
 import io.github.numq.stub.service.Service

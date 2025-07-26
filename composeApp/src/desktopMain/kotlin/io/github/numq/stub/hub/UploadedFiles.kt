@@ -1,4 +1,4 @@
-package hub
+package io.github.numq.stub.hub
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
