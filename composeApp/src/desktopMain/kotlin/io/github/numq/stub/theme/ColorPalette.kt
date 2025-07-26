@@ -5,29 +5,29 @@ import androidx.compose.material.lightColors
 import androidx.compose.ui.graphics.Color
 
 internal val LightColorPalette = lightColors(
-    primary = Color(0xFF90CAF9),       // Light blue for primary elements
-    primaryVariant = Color(0xFF42A5F5), // Slightly darker blue for accents
-    secondary = Color(0xFF80CBC4),      // Soft teal for secondary elements
-    secondaryVariant = Color(0xFF4DB6AC), // Deeper teal for contrast
-    background = Color(0xFFF5F5F5),     // Subtle light gray for app background
-    surface = Color(0xFFFFFFFF),        // White for card and surface backgrounds
-    onPrimary = Color.White,            // White text/icons on primary
-    onSecondary = Color.White,          // White text/icons on secondary
-    onBackground = Color(0xFF212121),   // Dark gray text/icons on light background
-    onSurface = Color(0xFF212121),      // Dark gray text/icons on light surfaces
-    error = Color(0xFFEF5350),          // Vibrant red for errors
+    primary = Color(0xFF0066CC),
+    primaryVariant = Color(0xFF004D99),
+    secondary = Color(0xFF4CAF50),
+    secondaryVariant = Color(0xFF388E3C),
+    background = Color(0xFFF8FAFF),
+    surface = Color.White,
+    onPrimary = Color.White,
+    onSecondary = Color.White,
+    onBackground = Color(0xFF333333),
+    onSurface = Color(0xFF333333),
+    error = Color(0xFFD32F2F),
 )
 
 internal val DarkColorPalette = darkColors(
-    primary = Color(0xFF1E88E5),       // Rich blue for primary elements
-    primaryVariant = Color(0xFF1565C0), // Deeper blue for accents
-    secondary = Color(0xFF26A69A),      // Deep teal for secondary elements
-    secondaryVariant = Color(0xFF00796B), // Rich greenish-teal for contrast
-    background = Color(0xFF121212),     // Dark gray for app background
-    surface = Color(0xFF1E1E1E),        // Slightly lighter gray for surfaces
-    onPrimary = Color(0xFFBBDEFB),      // Soft blue-gray text/icons on primary
-    onSecondary = Color(0xFFB2DFDB),    // Light teal-gray text/icons on secondary
-    onBackground = Color(0xFFE0E0E0),   // Light gray text/icons on dark background
-    onSurface = Color(0xFFE0E0E0),      // Light gray text/icons on dark surfaces
-    error = Color(0xFFEF9A9A),          // Softer red for errors in dark mode
+    primary = Color(0xFF5B9DFF),
+    primaryVariant = Color(0xFF3A7BD5),
+    secondary = Color(0xFF81C784),
+    secondaryVariant = Color(0xFF66BB6A),
+    background = Color(0xFF121A24),
+    surface = Color(0xFF1E2835),
+    onPrimary = Color.Black,
+    onSecondary = Color.Black,
+    onBackground = Color(0xFFE0E5EC),
+    onSurface = Color(0xFFE0E5EC),
+    error = Color(0xFFEF5350),
 )
