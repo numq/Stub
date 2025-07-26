@@ -152,7 +152,6 @@ fun HubScreen(feature: HubFeature = koinInject(), openFileDialog: () -> List<Str
                         feature = koinInject(parameters = { parametersOf(service) })
                     )
                 }
-            }
-        )
+            })
     }
 }
