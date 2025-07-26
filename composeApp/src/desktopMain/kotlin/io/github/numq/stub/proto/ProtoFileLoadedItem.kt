@@ -46,6 +46,14 @@ fun ProtoFileLoadedItem(
                     Icon(Icons.Default.DeleteForever, null)
                 }
             }
+
+            if (file.dependencies.isNotEmpty()) {
+                Text("Dependencies:", modifier = Modifier.padding(8.dp))
+                file.dependencies.forEach { dependency ->
+                    Text(dependency, modifier = Modifier.padding(8.dp))
+                }
+            }
+
             AnimatedVisibility(
                 visible = file.services.isNotEmpty() && isExpanded,
                 enter = expandVertically(),

@@ -1,7 +1,10 @@
 package io.github.numq.stub.proto
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DeleteForever
 import androidx.compose.runtime.Composable
@@ -26,15 +29,14 @@ fun ProtoFileUploadedItem(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = file.name, modifier = Modifier.padding(8.dp), color = Color.Red)
+                Text(text = file.name, modifier = Modifier.padding(8.dp))
                 IconButton(onClick = {
                     delete(file)
                 }) {
-                    Icon(Icons.Default.DeleteForever, null, tint = Color.Red)
+                    Icon(Icons.Default.DeleteForever, null)
                 }
             }
-            Divider()
-            Text("Missing dependencies", modifier = Modifier.padding(8.dp), color = Color.Red)
+            Text("Missing dependencies:", modifier = Modifier.padding(8.dp), color = Color.Red)
             file.missingDependencies.forEach { missingDependency ->
                 Text(missingDependency, modifier = Modifier.padding(8.dp), color = Color.Red)
             }

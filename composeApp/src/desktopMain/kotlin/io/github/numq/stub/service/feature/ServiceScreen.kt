@@ -42,12 +42,9 @@ fun ServiceScreen(
                 verticalArrangement = Arrangement.SpaceBetween
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(4.dp),
-                    horizontalArrangement = Arrangement.spacedBy(
-                        space = 4.dp,
-                        alignment = Alignment.CenterHorizontally
-                    ),
-                    verticalAlignment = Alignment.CenterVertically
+                    modifier = Modifier.fillMaxWidth().padding(4.dp), horizontalArrangement = Arrangement.spacedBy(
+                        space = 4.dp, alignment = Alignment.CenterHorizontally
+                    ), verticalAlignment = Alignment.CenterVertically
                 ) {
                     OutlinedTextField(value = state.address, onValueChange = { value ->
                         coroutineScope.launch {
@@ -58,13 +55,12 @@ fun ServiceScreen(
                             coroutineScope.launch {
                                 feature.execute(ServiceCommand.Interaction.ChangeAddress(address = ""))
                             }
-                        }) {
+                        }, modifier = Modifier.padding(4.dp), enabled = state.address.isNotBlank()) {
                             Icon(Icons.Default.Clear, null)
                         }
                     })
                     ExposedDropdownMenuBox(
-                        expanded = state.methodsMenuExpanded,
-                        onExpandedChange = {
+                        expanded = state.methodsMenuExpanded, onExpandedChange = {
                             coroutineScope.launch {
                                 if (state.methodsMenuExpanded) {
                                     feature.execute(ServiceCommand.Interaction.ShrinkMethodsMenu)
@@ -72,8 +68,7 @@ fun ServiceScreen(
                                     feature.execute(ServiceCommand.Interaction.ExpandMethodsMenu)
                                 }
                             }
-                        }
-                    ) {
+                        }) {
                         OutlinedTextField(
                             state.selectedMethod?.name ?: "Select method",
                             onValueChange = {},
@@ -84,8 +79,7 @@ fun ServiceScreen(
                                     null -> Unit
 
                                     is Method.Call.Unary -> Icon(
-                                        Icons.AutoMirrored.Filled.Message,
-                                        contentDescription = null
+                                        Icons.AutoMirrored.Filled.Message, contentDescription = null
                                     )
 
                                     is Method.Call.Server -> Icon(
@@ -95,31 +89,29 @@ fun ServiceScreen(
                                     )
 
                                     is Method.Stream.Client -> Icon(
-                                        Icons.AutoMirrored.Filled.ArrowRightAlt,
-                                        contentDescription = null
+                                        Icons.AutoMirrored.Filled.ArrowRightAlt, contentDescription = null
                                     )
 
                                     is Method.Stream.Bidi -> Icon(
-                                        Icons.Default.SyncAlt,
-                                        contentDescription = null
+                                        Icons.Default.SyncAlt, contentDescription = null
                                     )
                                 }
                             },
                             trailingIcon = {
-                                if (state.methodsMenuExpanded) {
-                                    Icon(Icons.Default.ExpandLess, null)
-                                } else {
-                                    Icon(Icons.Default.ExpandMore, null)
+                                Box(modifier = Modifier.weight(1f).padding(4.dp), contentAlignment = Alignment.Center) {
+                                    if (state.methodsMenuExpanded) {
+                                        Icon(Icons.Default.ExpandLess, null)
+                                    } else {
+                                        Icon(Icons.Default.ExpandMore, null)
+                                    }
                                 }
                             })
                         ExposedDropdownMenu(
-                            expanded = state.methodsMenuExpanded,
-                            onDismissRequest = {
+                            expanded = state.methodsMenuExpanded, onDismissRequest = {
                                 coroutineScope.launch {
                                     feature.execute(ServiceCommand.Interaction.ShrinkMethodsMenu)
                                 }
-                            }
-                        ) {
+                            }) {
                             state.service.methods.forEach { method ->
                                 DropdownMenuItem(onClick = {
                                     coroutineScope.launch {
@@ -133,21 +125,18 @@ fun ServiceScreen(
                                     Row(
                                         modifier = Modifier.fillMaxWidth(),
                                         horizontalArrangement = Arrangement.spacedBy(
-                                            space = 4.dp,
-                                            alignment = Alignment.Start
+                                            space = 4.dp, alignment = Alignment.Start
                                         ),
                                         verticalAlignment = Alignment.CenterVertically
                                     ) {
                                         Row(
                                             horizontalArrangement = Arrangement.spacedBy(
-                                                space = 4.dp,
-                                                alignment = Alignment.CenterHorizontally
+                                                space = 4.dp, alignment = Alignment.CenterHorizontally
                                             ), verticalAlignment = Alignment.CenterVertically
                                         ) {
                                             when (method) {
                                                 is Method.Call.Unary -> Icon(
-                                                    Icons.AutoMirrored.Filled.Message,
-                                                    contentDescription = null
+                                                    Icons.AutoMirrored.Filled.Message, contentDescription = null
                                                 )
 
                                                 is Method.Call.Server -> Icon(
@@ -157,13 +146,11 @@ fun ServiceScreen(
                                                 )
 
                                                 is Method.Stream.Client -> Icon(
-                                                    Icons.AutoMirrored.Filled.ArrowRightAlt,
-                                                    contentDescription = null
+                                                    Icons.AutoMirrored.Filled.ArrowRightAlt, contentDescription = null
                                                 )
 
                                                 is Method.Stream.Bidi -> Icon(
-                                                    Icons.Default.SyncAlt,
-                                                    contentDescription = null
+                                                    Icons.Default.SyncAlt, contentDescription = null
                                                 )
                                             }
                                         }
@@ -185,7 +172,7 @@ fun ServiceScreen(
                                 feature.execute(ServiceCommand.Communication.InvokeMethod)
                             }
                         }
-                    }) {
+                    }, enabled = state.address.isNotBlank()) {
                         if (state.isConnected) {
                             Icon(Icons.Default.CloudOff, null)
                         } else {
@@ -209,30 +196,21 @@ fun ServiceScreen(
                 }
                 Box(modifier = Modifier.weight(1f), contentAlignment = Alignment.Center) {
                     state.selectedMethod?.let { method ->
-                        MethodItem(
-                            method = method,
-                            events = state.events,
-                            body = state.body,
-                            onBodyChange = { body ->
-                                coroutineScope.launch {
-                                    feature.execute(ServiceCommand.Interaction.ChangeBody(body = body))
-                                }
-                            },
-                            metadata = state.metadata,
-                            onMetadataChange = { metadata ->
-                                coroutineScope.launch {
-                                    feature.execute(ServiceCommand.Interaction.ChangeMetadata(metadata = metadata))
-                                }
-                            },
-                            generateRandomBody = {
-                                coroutineScope.launch {
-                                    feature.execute(ServiceCommand.Interaction.GenerateRandomBody(method = method))
-                                }
+                        MethodItem(method = method, events = state.events, body = state.body, onBodyChange = { body ->
+                            coroutineScope.launch {
+                                feature.execute(ServiceCommand.Interaction.ChangeBody(body = body))
                             }
-                        )
+                        }, metadata = state.metadata, onMetadataChange = { metadata ->
+                            coroutineScope.launch {
+                                feature.execute(ServiceCommand.Interaction.ChangeMetadata(metadata = metadata))
+                            }
+                        }, generateRandomBody = {
+                            coroutineScope.launch {
+                                feature.execute(ServiceCommand.Interaction.GenerateRandomBody(method = method))
+                            }
+                        })
                     } ?: Text("Upload proto and select method to start")
                 }
             }
-        }
-    )
+        })
 }

@@ -29,7 +29,7 @@ fun MethodInput(body: String, onBodyChange: (String) -> Unit, generateRandomBody
             if (body.isNotEmpty()) {
                 IconButton(onClick = {
                     onBodyChange("")
-                }) {
+                }, modifier = Modifier.padding(4.dp)) {
                     Icon(Icons.Default.Clear, null)
                 }
             }

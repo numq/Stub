@@ -7,7 +7,6 @@ import io.github.numq.stub.navigation.Navigation
 import io.github.numq.stub.theme.StubTheme
 import org.koin.core.context.startKoin
 import java.awt.FileDialog
-import java.io.File
 import java.io.FilenameFilter
 
 const val appName = "Stub"
@@ -20,12 +19,18 @@ fun main() {
     singleWindowApplication(title = appName) {
         StubTheme(isDarkTheme = isSystemInDarkTheme()) {
             Navigation(openFileDialog = {
-                FileDialog(window, "Upload files", FileDialog.LOAD).apply {
+                val dialog = FileDialog(window, "Upload files", FileDialog.LOAD).apply {
                     file = "*.proto"
                     filenameFilter = FilenameFilter { _, name -> name.endsWith(".proto") }
                     isMultipleMode = true
                     isVisible = true
-                }.files.filter { file -> file.extension == "proto" }.map(File::getPath)
+                }
+
+                if (dialog.files.isNotEmpty()) {
+                    dialog.files.map { it.path }
+                } else {
+                    dialog.file?.let { listOf(dialog.directory + dialog.file) } ?: emptyList()
+                }.filter { it.endsWith(".proto") }
             })
         }
     }

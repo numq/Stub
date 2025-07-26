@@ -25,7 +25,7 @@ fun MethodMetadata(metadata: String, onMetadataChange: (String) -> Unit) {
                 if (metadata.isNotEmpty()) {
                     IconButton(onClick = {
                         onMetadataChange("")
-                    }) {
+                    }, modifier = Modifier.padding(4.dp)) {
                         Icon(Icons.Default.Clear, null)
                     }
                 }

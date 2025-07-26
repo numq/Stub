@@ -30,7 +30,7 @@ import java.nio.file.Path
 import kotlin.io.path.exists
 import kotlin.io.path.toPath
 
-@OptIn(ExperimentalMaterialApi::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun HubScreen(feature: HubFeature = koinInject(), openFileDialog: () -> List<String>) {
     val state by feature.state.collectAsState()
