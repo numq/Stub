@@ -1,10 +1,9 @@
-package io.github.numq.stub.hub.feature
+package io.github.numq.stub.hub
 
 import io.github.numq.stub.feature.Reducer
 import io.github.numq.stub.file.DeleteFile
 import io.github.numq.stub.file.GetFiles
 import io.github.numq.stub.file.UploadFile
-import io.github.numq.stub.hub.SelectedService
 import io.github.numq.stub.proto.ProtoFile
 
 class HubReducer(
@@ -28,9 +27,9 @@ class HubReducer(
         })
 
         is HubCommand.DeleteFile -> deleteFile.execute(DeleteFile.Input(file = command.protoFile)).fold(onSuccess = {
-            state.selectedService?.let { selectedService ->
+            state.selectedService?.let { service ->
                 (command.protoFile as? ProtoFile.Loaded)?.services?.takeIf { services ->
-                    services.contains(selectedService.service)
+                    services.contains(service)
                 }?.let {
                     transition(state.copy(selectedService = null))
                 }
@@ -39,13 +38,7 @@ class HubReducer(
             transition(state, HubEvent.Error(Exception(t.localizedMessage)))
         })
 
-        is HubCommand.SelectService -> transition(
-            state.copy(
-                selectedService = SelectedService(
-                    protoFile = command.protoFile, service = command.service
-                )
-            )
-        )
+        is HubCommand.SelectService -> transition(state.copy(selectedService = command.service))
 
         is HubCommand.DeselectService -> transition(state.copy(selectedService = null))
     }

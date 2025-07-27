@@ -1,4 +1,4 @@
-package io.github.numq.stub.service.feature
+package io.github.numq.stub.interaction
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -22,10 +22,9 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ServiceScreen(
-    fileContent: String,
+fun InteractionView(
+    feature: InteractionFeature,
     previewDrawerState: BottomDrawerState,
-    feature: ServiceFeature,
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -33,7 +32,9 @@ fun ServiceScreen(
 
     BottomDrawer(
         modifier = Modifier.fillMaxSize(),
-        drawerContent = { ProtoFilePreview(content = fileContent) },
+        drawerContent = {
+            ProtoFilePreview(content = state.service.fileContent)
+        },
         drawerState = previewDrawerState,
         content = {
             Column(
@@ -48,12 +49,12 @@ fun ServiceScreen(
                 ) {
                     OutlinedTextField(value = state.address, onValueChange = { value ->
                         coroutineScope.launch {
-                            feature.execute(ServiceCommand.Interaction.ChangeAddress(address = value.trim()))
+                            feature.execute(InteractionCommand.ChangeAddress(address = value.trim()))
                         }
                     }, modifier = Modifier.weight(1f), singleLine = true, trailingIcon = {
                         IconButton(onClick = {
                             coroutineScope.launch {
-                                feature.execute(ServiceCommand.Interaction.ChangeAddress(address = ""))
+                                feature.execute(InteractionCommand.ChangeAddress(address = ""))
                             }
                         }, modifier = Modifier.padding(4.dp), enabled = state.address.isNotBlank()) {
                             Icon(Icons.Default.Clear, null)
@@ -63,9 +64,9 @@ fun ServiceScreen(
                         expanded = state.methodsMenuExpanded, onExpandedChange = {
                             coroutineScope.launch {
                                 if (state.methodsMenuExpanded) {
-                                    feature.execute(ServiceCommand.Interaction.ShrinkMethodsMenu)
+                                    feature.execute(InteractionCommand.ShrinkMethodsMenu)
                                 } else {
-                                    feature.execute(ServiceCommand.Interaction.ExpandMethodsMenu)
+                                    feature.execute(InteractionCommand.ExpandMethodsMenu)
                                 }
                             }
                         }) {
@@ -109,16 +110,16 @@ fun ServiceScreen(
                         ExposedDropdownMenu(
                             expanded = state.methodsMenuExpanded, onDismissRequest = {
                                 coroutineScope.launch {
-                                    feature.execute(ServiceCommand.Interaction.ShrinkMethodsMenu)
+                                    feature.execute(InteractionCommand.ShrinkMethodsMenu)
                                 }
                             }) {
                             state.service.methods.forEach { method ->
                                 DropdownMenuItem(onClick = {
                                     coroutineScope.launch {
                                         if (method == state.selectedMethod) {
-                                            feature.execute(ServiceCommand.Interaction.DeselectMethod)
+                                            feature.execute(InteractionCommand.DeselectMethod)
                                         } else {
-                                            feature.execute(ServiceCommand.Interaction.SelectMethod(method = method))
+                                            feature.execute(InteractionCommand.SelectMethod(method = method))
                                         }
                                     }
                                 }) {
@@ -167,9 +168,9 @@ fun ServiceScreen(
                     IconButton(onClick = {
                         coroutineScope.launch {
                             if (state.isConnected) {
-                                feature.execute(ServiceCommand.Communication.CancelMethod)
+                                feature.execute(InteractionCommand.Communication.CancelMethod)
                             } else {
-                                feature.execute(ServiceCommand.Communication.InvokeMethod)
+                                feature.execute(InteractionCommand.Communication.InvokeMethod)
                             }
                         }
                     }, enabled = state.address.isNotBlank()) {
@@ -181,14 +182,14 @@ fun ServiceScreen(
                     }
                     IconButton(onClick = {
                         coroutineScope.launch {
-                            feature.execute(ServiceCommand.Communication.SendRequest)
+                            feature.execute(InteractionCommand.Communication.SendRequest)
                         }
                     }, enabled = state.selectedMethod is Method.Stream && state.isConnected) {
                         Icon(Icons.Default.CloudUpload, null)
                     }
                     IconButton(onClick = {
                         coroutineScope.launch {
-                            feature.execute(ServiceCommand.Communication.StopStreaming)
+                            feature.execute(InteractionCommand.Communication.StopStreaming)
                         }
                     }, enabled = state.selectedMethod is Method.Stream && state.isConnected) {
                         Icon(Icons.Default.CloudDone, null)
@@ -198,15 +199,15 @@ fun ServiceScreen(
                     state.selectedMethod?.let { method ->
                         MethodItem(method = method, events = state.events, body = state.body, onBodyChange = { body ->
                             coroutineScope.launch {
-                                feature.execute(ServiceCommand.Interaction.ChangeBody(body = body))
+                                feature.execute(InteractionCommand.ChangeBody(body = body))
                             }
                         }, metadata = state.metadata, onMetadataChange = { metadata ->
                             coroutineScope.launch {
-                                feature.execute(ServiceCommand.Interaction.ChangeMetadata(metadata = metadata))
+                                feature.execute(InteractionCommand.ChangeMetadata(metadata = metadata))
                             }
                         }, generateRandomBody = {
                             coroutineScope.launch {
-                                feature.execute(ServiceCommand.Interaction.GenerateRandomBody(method = method))
+                                feature.execute(InteractionCommand.GenerateRandomBody(method = method))
                             }
                         })
                     } ?: Text("Upload proto and select method to start")

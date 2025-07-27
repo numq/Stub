@@ -17,10 +17,8 @@ import androidx.compose.ui.draganddrop.DragAndDropTarget
 import androidx.compose.ui.draganddrop.DragData
 import androidx.compose.ui.draganddrop.dragData
 import androidx.compose.ui.unit.dp
-import io.github.numq.stub.hub.feature.HubCommand
-import io.github.numq.stub.hub.feature.HubFeature
+import io.github.numq.stub.interaction.InteractionView
 import io.github.numq.stub.proto.ProtoFile
-import io.github.numq.stub.service.feature.ServiceScreen
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
@@ -32,7 +30,7 @@ import kotlin.io.path.toPath
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun HubScreen(feature: HubFeature = koinInject(), openFileDialog: () -> List<String>) {
+fun HubView(feature: HubFeature = koinInject(), openFileDialog: () -> List<String>) {
     val state by feature.state.collectAsState()
 
     val coroutineScope = rememberCoroutineScope()
@@ -81,7 +79,7 @@ fun HubScreen(feature: HubFeature = koinInject(), openFileDialog: () -> List<Str
         event.dragData() !is DragData.Image
     }, dropTarget), topBar = {
         TopAppBar(title = {
-            state.selectedService?.run {
+            state.selectedService?.let { service ->
                 Text(service.fullName, modifier = Modifier.padding(8.dp))
             }
         }, navigationIcon = {
@@ -145,11 +143,10 @@ fun HubScreen(feature: HubFeature = koinInject(), openFileDialog: () -> List<Str
                 })
             },
             content = {
-                state.selectedService?.let { (protoFile, service) ->
-                    ServiceScreen(
-                        fileContent = protoFile.content,
-                        previewDrawerState = previewDrawerState,
-                        feature = koinInject(parameters = { parametersOf(service) })
+                state.selectedService?.let { service ->
+                    InteractionView(
+                        feature = koinInject(parameters = { parametersOf(service) }),
+                        previewDrawerState = previewDrawerState
                     )
                 }
             })

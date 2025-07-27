@@ -1,4 +1,4 @@
-package io.github.numq.stub.service.feature
+package io.github.numq.stub.interaction
 
 import io.github.numq.stub.client.InputMessage
 import io.github.numq.stub.feature.Reducer
@@ -6,23 +6,23 @@ import io.github.numq.stub.feature.Transition
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.consumeAsFlow
 import io.github.numq.stub.method.Method
-import io.github.numq.stub.method.interactor.InvokeCallMethod
-import io.github.numq.stub.method.interactor.InvokeStreamMethod
+import io.github.numq.stub.method.InvokeCallMethod
+import io.github.numq.stub.method.InvokeStreamMethod
 
-class ServiceCommunicationReducer(
+class InteractionCommunicationReducer(
     private val invokeCallMethod: InvokeCallMethod,
     private val invokeStreamMethod: InvokeStreamMethod,
-) : Reducer<ServiceCommand.Communication, ServiceState, ServiceEvent> {
+) : Reducer<InteractionCommand.Communication, InteractionState, InteractionEvent> {
     override suspend fun reduce(
-        state: ServiceState,
-        command: ServiceCommand.Communication,
-    ): Transition<ServiceState, ServiceEvent> = when (val method = state.selectedMethod) {
+        state: InteractionState,
+        command: InteractionCommand.Communication,
+    ): Transition<InteractionState, InteractionEvent> = when (val method = state.selectedMethod) {
         null -> transition(state)
 
         else -> when (command) {
-            is ServiceCommand.Communication.AddEvent -> Result.success(transition(state.copy(events = state.events + command.event)))
+            is InteractionCommand.Communication.AddEvent -> Result.success(transition(state.copy(events = state.events + command.event)))
 
-            is ServiceCommand.Communication.InvokeMethod -> {
+            is InteractionCommand.Communication.InvokeMethod -> {
                 state.inputMessages?.close()
 
                 when (method) {
@@ -36,7 +36,7 @@ class ServiceCommunicationReducer(
                     ).mapCatching { clientEvents ->
                         transition(
                             state.copy(events = emptyList(), isConnected = true, inputMessages = null),
-                            ServiceEvent.CollectEvents(events = clientEvents)
+                            InteractionEvent.CollectEvents(events = clientEvents)
                         )
                     }
 
@@ -53,38 +53,38 @@ class ServiceCommunicationReducer(
                         ).mapCatching { clientEvents ->
                             transition(
                                 state.copy(events = emptyList(), isConnected = true, inputMessages = inputMessages),
-                                ServiceEvent.CollectEvents(events = clientEvents)
+                                InteractionEvent.CollectEvents(events = clientEvents)
                             )
                         }
                     }
                 }
             }
 
-            is ServiceCommand.Communication.SendRequest -> {
+            is InteractionCommand.Communication.SendRequest -> {
                 if (method is Method.Stream) {
                     state.inputMessages?.send(InputMessage(body = state.body))
                 }
                 Result.success(transition(state))
             }
 
-            is ServiceCommand.Communication.StopStreaming -> {
+            is InteractionCommand.Communication.StopStreaming -> {
                 if (method is Method.Stream) {
                     state.inputMessages?.close()
                 }
                 Result.success(transition(state))
             }
 
-            is ServiceCommand.Communication.CancelMethod -> {
+            is InteractionCommand.Communication.CancelMethod -> {
                 if (method is Method.Stream) {
                     state.inputMessages?.cancel()
                 }
                 Result.success(transition(state.copy(inputMessages = null, isConnected = false)))
             }
 
-            is ServiceCommand.Communication.CompleteMethod -> Result.success(
+            is InteractionCommand.Communication.CompleteMethod -> Result.success(
                 transition(
                     state.copy(inputMessages = null, isConnected = false),
-                    ServiceEvent.DisposeEvents
+                    InteractionEvent.DisposeEvents
                 )
             )
         }.getOrElse { transition(state) }

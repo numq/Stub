@@ -24,7 +24,7 @@ fun UploadedFiles(
     files: List<ProtoFile>,
     openFileDialog: () -> Unit,
     deleteFile: (ProtoFile) -> Unit,
-    selectedService: SelectedService?,
+    selectedService: Service?,
     selectService: (ProtoFile, Service) -> Unit,
     deselectService: () -> Unit,
 ) {
@@ -58,7 +58,7 @@ fun UploadedFiles(
 
                         is ProtoFile.Loaded -> ProtoFileLoadedItem(
                             file = file, selectService = { service ->
-                                if (selectedService != null && selectedService.service == service) {
+                                if (selectedService == service) {
                                     deselectService()
                                 } else {
                                     selectService(file, service)
