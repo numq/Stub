@@ -49,9 +49,5 @@ compose.desktop {
             packageName = "io.github.numq.stub.application"
             packageVersion = "1.0.0"
         }
-
-        buildTypes.release.proguard {
-            optimize.set(false)
-        }
     }
 }
