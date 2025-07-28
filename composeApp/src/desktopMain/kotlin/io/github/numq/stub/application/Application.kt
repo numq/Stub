@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.DpSize
@@ -34,23 +32,11 @@ fun main() {
     startKoin { modules(appModule) }
 
     singleWindowApplication(state = windowState, title = APP_NAME) {
-//        val iconSvg = File("media/logo.svg").inputStream().use {
-//            loadSvgPainter(it, Density(1f))
-//        }
-//
-//        window.iconImage = iconSvg.toAwtImage(Density(1f), LayoutDirection.Ltr)
-
-        // todo
-
         window.minimumSize = Dimension(windowSize.width.value.toInt(), windowSize.height.value.toInt())
 
         val isSystemInDarkTheme = isSystemInDarkTheme()
 
-        val (isDarkTheme, setIsDarkTheme) = remember(isSystemInDarkTheme) {
-            mutableStateOf(isSystemInDarkTheme)
-        }
-
-        StubTheme(isDarkTheme = isDarkTheme) {
+        StubTheme(isDarkTheme = isSystemInDarkTheme) {
             Column(
                 modifier = Modifier.fillMaxSize().background(MaterialTheme.colors.background),
                 horizontalAlignment = Alignment.CenterHorizontally,
