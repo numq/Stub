@@ -51,10 +51,10 @@ fun main() {
                     }
 
                     if (dialog.files.isNotEmpty()) {
-                        dialog.files.map { it.path }.also { println(it.size) }
+                        dialog.files.map { it.path }
                     } else {
                         dialog.file?.let { listOf(dialog.directory + dialog.file) } ?: emptyList()
-                    }.filter { it.endsWith(".proto") }.also { println(it.size) }
+                    }.filter { it.endsWith(".proto") }
                 })
             }
         }
