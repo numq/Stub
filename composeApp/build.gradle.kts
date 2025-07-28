@@ -40,15 +40,18 @@ kotlin {
     }
 }
 
-
 compose.desktop {
     application {
         mainClass = "io.github.numq.stub.application.ApplicationKt"
 
         nativeDistributions {
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(TargetFormat.Dmg, TargetFormat.Exe, TargetFormat.Deb)
             packageName = "io.github.numq.stub.application"
             packageVersion = "1.0.0"
+        }
+
+        buildTypes.release.proguard {
+            optimize.set(false)
         }
     }
 }
