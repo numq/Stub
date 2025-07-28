@@ -23,7 +23,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew :composeApp:packageDesktop
+        run: ./gradlew :composeApp:packageReleaseDistributionForCurrentOS
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
