@@ -46,7 +46,7 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Exe, TargetFormat.Deb)
-            packageName = "io.github.numq.stub.application"
+            packageName = "Stub"
             packageVersion = "1.0.0"
         }
     }
