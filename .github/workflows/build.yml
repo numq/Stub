@@ -46,7 +46,7 @@ jobs:
       - name: Upload Mac
         uses: actions/upload-artifact@v4
         with:
-          path: composeApp/build/compose/binaries/main/app/Stub/*.dmg
+          path: composeApp/build/compose/binaries/main/app/*.dmg
 
   build-linux:
     runs-on: ubuntu-latest
@@ -68,4 +68,4 @@ jobs:
       - name: Upload Linux
         uses: actions/upload-artifact@v4
         with:
-          path: composeApp/build/compose/binaries/main/app/Stub/*.deb
+          path: composeApp/build/compose/binaries/main/app/*.deb
