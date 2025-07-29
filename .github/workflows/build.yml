@@ -19,7 +19,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Windows
-        run: ./gradlew :composeApp:packageDesktopForWindows
+        run: ./gradlew :composeApp:createDistributable
 
       - name: Upload Windows
         uses: actions/upload-artifact@v4
@@ -41,7 +41,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Mac
-        run: ./gradlew :composeApp:packageDesktopForMac
+        run: ./gradlew :composeApp:createDistributable
 
       - name: Upload Mac
         uses: actions/upload-artifact@v4
@@ -63,7 +63,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Linux
-        run: ./gradlew :composeApp:packageDesktopForLinux
+        run: ./gradlew :composeApp:createDistributable
 
       - name: Upload Linux
         uses: actions/upload-artifact@v4
