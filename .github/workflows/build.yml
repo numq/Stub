@@ -25,11 +25,21 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew :composeApp:createDistributable
 
-      - name: Upload artifacts
+      - name: Prepare artifacts
+        shell: bash
+        run: |
+          mkdir -p artifacts
+          cp composeApp/build/compose/binaries/main/app/Stub/*.exe artifacts/ 2>/dev/null || true
+          cp composeApp/build/compose/binaries/main/app/*.deb artifacts/ 2>/dev/null || true
+          cp composeApp/build/compose/binaries/main/app/*.dmg artifacts/ 2>/dev/null || true
+
+      - name: Create zip
+        shell: bash
+        run: |
+          cd artifacts && zip -r ../executables.zip *
+
+      - name: Upload zip
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.os }}-build
-          path: |
-            composeApp/build/compose/binaries/main/app/Stub/*.exe
-            composeApp/build/compose/binaries/main/app/*.deb
-            composeApp/build/compose/binaries/main/app/*.dmg
+          name: executables
+          path: executables.zip
