@@ -30,6 +30,6 @@ jobs:
         with:
           name: ${{ matrix.os }}-build
           path: |
-            composeApp/build/compose/binaries/main/app/Stub/*.dmg
             composeApp/build/compose/binaries/main/app/Stub/*.exe
-            composeApp/build/compose/binaries/main/app/Stub/*.deb
+            composeApp/build/compose/binaries/main/app/*.deb
+            composeApp/build/compose/binaries/main/app/*.dmg
