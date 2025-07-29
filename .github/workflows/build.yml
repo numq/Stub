@@ -19,13 +19,13 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Windows
-        run: ./gradlew :composeApp:createDistributable
+        run: ./gradlew :composeApp:packageExe
 
       - name: Upload Windows
         uses: actions/upload-artifact@v4
         with:
           name: windows
-          path: composeApp/build/compose/binaries/main/app/**/*
+          path: composeApp/build/compose/binaries/main/exe/Stub.exe
 
   build-mac:
     runs-on: macos-latest
@@ -42,13 +42,13 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Mac
-        run: ./gradlew :composeApp:createDistributable
+        run: ./gradlew :composeApp:packageDmg
 
       - name: Upload Mac
         uses: actions/upload-artifact@v4
         with:
           name: macos
-          path: composeApp/build/compose/binaries/main/app/**/*
+          path: composeApp/build/compose/binaries/main/dmg/Stub.dmg
 
   build-linux:
     runs-on: ubuntu-latest
@@ -65,10 +65,10 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build Linux
-        run: ./gradlew :composeApp:createDistributable
+        run: ./gradlew :composeApp:packageDeb
 
       - name: Upload Linux
         uses: actions/upload-artifact@v4
         with:
           name: linux
-          path: composeApp/build/compose/binaries/main/app/**/*
+          path: composeApp/build/compose/binaries/main/deb/Stub.deb
