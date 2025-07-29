@@ -2,6 +2,6 @@
 
 # Stub
 
-Client for testing gRPC microservices
+Client for testing gRPC services
 
 ![Preview](./media/preview.png)
