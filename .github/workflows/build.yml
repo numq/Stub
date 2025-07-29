@@ -31,5 +31,5 @@ jobs:
           name: ${{ matrix.os }}-build
           path: |
             composeApp/build/compose/binaries/main/app/Stub/*.dmg
-            composeApp/build/compose/binaries/main/app/Stub/*.msi
+            composeApp/build/compose/binaries/main/app/Stub/*.exe
             composeApp/build/compose/binaries/main/app/Stub/*.deb
