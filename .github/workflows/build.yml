@@ -36,7 +36,7 @@ jobs:
       - name: Create zip
         shell: bash
         run: |
-          cd artifacts && zip -r ../executables.zip *
+          cd artifacts && zip -r ../executables.zip .
 
       - name: Upload zip
         uses: actions/upload-artifact@v4
