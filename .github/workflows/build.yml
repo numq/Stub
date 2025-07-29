@@ -15,6 +15,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
       - name: Build Windows
         run: ./gradlew :composeApp:packageDesktopForWindows
 
@@ -34,6 +37,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
       - name: Build Mac
         run: ./gradlew :composeApp:packageDesktopForMac
 
@@ -52,6 +58,9 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
 
       - name: Build Linux
         run: ./gradlew :composeApp:packageDesktopForLinux
