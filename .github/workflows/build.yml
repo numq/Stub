@@ -15,10 +15,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build Windows EXE
+      - name: Build Windows
         run: ./gradlew :composeApp:packageDesktopForWindows
 
-      - name: Upload Windows EXE
+      - name: Upload Windows
         uses: actions/upload-artifact@v4
         with:
           path: composeApp/build/compose/binaries/main/app/Stub/*.exe
@@ -34,10 +34,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build Mac DMG
+      - name: Build Mac
         run: ./gradlew :composeApp:packageDesktopForMac
 
-      - name: Upload Mac DMG
+      - name: Upload Mac
         uses: actions/upload-artifact@v4
         with:
           path: composeApp/build/compose/binaries/main/app/*.dmg
@@ -53,10 +53,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Build Linux DEB
+      - name: Build Linux
         run: ./gradlew :composeApp:packageDesktopForLinux
 
-      - name: Upload Linux DEB
+      - name: Upload Linux
         uses: actions/upload-artifact@v4
         with:
           path: composeApp/build/compose/binaries/main/app/*.deb
