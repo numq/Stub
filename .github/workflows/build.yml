@@ -25,7 +25,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: windows
-          path: composeApp/build/compose/binaries/main/exe/Stub.exe
+          path: composeApp/build/compose/binaries/main/exe/*.exe
 
   build-mac:
     runs-on: macos-latest
@@ -48,7 +48,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: macos
-          path: composeApp/build/compose/binaries/main/dmg/Stub.dmg
+          path: composeApp/build/compose/binaries/main/dmg/*.dmg
 
   build-linux:
     runs-on: ubuntu-latest
@@ -71,4 +71,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: linux
-          path: composeApp/build/compose/binaries/main/deb/Stub.deb
+          path: composeApp/build/compose/binaries/main/deb/*.deb
