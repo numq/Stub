@@ -33,7 +33,7 @@ fun CustomModalDrawer(
 
         val drawerWidthPx = with(density) { drawerWidthDp.toPx() }
 
-        val offsetX = remember {
+        val offsetX = remember(drawerWidthPx) {
             Animatable(if (isOpen) 0f else -drawerWidthPx)
         }
 
