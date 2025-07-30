@@ -26,8 +26,6 @@ fun CustomModalDrawer(
 ) {
     val coroutineScope = rememberCoroutineScope()
 
-    val isOpenState by rememberUpdatedState(isOpen)
-
     val density = LocalDensity.current
 
     BoxWithConstraints(modifier = modifier) {
