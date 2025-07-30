@@ -39,14 +39,16 @@ fun CustomModalDrawer(
 
         var currentDrawerWidth by remember { mutableStateOf(drawerWidthPx) }
 
-        LaunchedEffect(drawerWidthPx) {
-            val progress = ((offsetX.value + currentDrawerWidth) / currentDrawerWidth).coerceIn(0f, 1f)
-
-            currentDrawerWidth = drawerWidthPx
-
-            val newOffset = -currentDrawerWidth + currentDrawerWidth * progress
-
-            offsetX.snapTo(newOffset)
+        LaunchedEffect(drawerWidthPx, isOpen) {
+            if (isOpen) {
+                val progress = ((offsetX.value + currentDrawerWidth) / currentDrawerWidth).coerceIn(0f, 1f)
+                currentDrawerWidth = drawerWidthPx
+                val newOffset = -currentDrawerWidth + currentDrawerWidth * progress
+                offsetX.snapTo(newOffset)
+            } else {
+                currentDrawerWidth = drawerWidthPx
+                offsetX.snapTo(-currentDrawerWidth)
+            }
         }
 
         LaunchedEffect(isOpen, currentDrawerWidth) {
