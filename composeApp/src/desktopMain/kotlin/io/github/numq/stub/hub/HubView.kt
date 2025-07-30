@@ -17,6 +17,7 @@ import androidx.compose.ui.draganddrop.DragAndDropTarget
 import androidx.compose.ui.draganddrop.DragData
 import androidx.compose.ui.draganddrop.dragData
 import androidx.compose.ui.unit.dp
+import io.github.numq.stub.drawer.CustomModalDrawer
 import io.github.numq.stub.interaction.InteractionView
 import io.github.numq.stub.proto.ProtoFile
 import kotlinx.coroutines.launch
@@ -34,8 +35,6 @@ fun HubView(feature: HubFeature = koinInject(), openFileDialog: () -> List<Strin
     val state by feature.state.collectAsState()
 
     val coroutineScope = rememberCoroutineScope()
-
-    val uploadedFilesDrawerState = rememberDrawerState(DrawerValue.Closed)
 
     val previewDrawerState = rememberBottomDrawerState(BottomDrawerValue.Closed)
 
@@ -86,9 +85,9 @@ fun HubView(feature: HubFeature = koinInject(), openFileDialog: () -> List<Strin
             IconButton(onClick = {
                 coroutineScope.launch {
                     when {
-                        uploadedFilesDrawerState.isOpen -> uploadedFilesDrawerState.close()
+                        state.isFilesDrawerOpen -> feature.execute(HubCommand.CloseDrawer)
 
-                        uploadedFilesDrawerState.isClosed -> uploadedFilesDrawerState.open()
+                        else -> feature.execute(HubCommand.OpenDrawer)
                     }
                 }
             }) {
@@ -122,9 +121,14 @@ fun HubView(feature: HubFeature = koinInject(), openFileDialog: () -> List<Strin
             }
         }, modifier = Modifier.fillMaxWidth())
     }) { paddingValues ->
-        ModalDrawer(
+        CustomModalDrawer(
             modifier = Modifier.fillMaxSize().padding(paddingValues),
-            drawerState = uploadedFilesDrawerState,
+            isOpen = state.isFilesDrawerOpen,
+            openDrawer = { isOpen ->
+                coroutineScope.launch {
+                    feature.execute(if (isOpen) HubCommand.OpenDrawer else HubCommand.CloseDrawer)
+                }
+            },
             drawerContent = {
                 UploadedFiles(files = state.protoFiles, openFileDialog = {
                     openFileDialog().let(::uploadFiles)
