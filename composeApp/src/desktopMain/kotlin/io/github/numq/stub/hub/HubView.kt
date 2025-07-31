@@ -33,9 +33,9 @@ import kotlin.io.path.toPath
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun HubView(feature: HubFeature = koinInject(), openFileDialog: () -> List<String>) {
-    val state by feature.state.collectAsState()
-
     val coroutineScope = rememberCoroutineScope()
+
+    val state by feature.state.collectAsState()
 
     val filesDrawerState = androidx.compose.material3.rememberDrawerState(DrawerValue.Closed)
 
