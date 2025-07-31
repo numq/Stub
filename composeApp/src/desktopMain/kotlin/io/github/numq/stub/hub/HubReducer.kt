@@ -41,9 +41,5 @@ class HubReducer(
         is HubCommand.SelectService -> transition(state.copy(selectedService = command.service))
 
         is HubCommand.DeselectService -> transition(state.copy(selectedService = null))
-
-        is HubCommand.OpenDrawer -> transition(state.copy(isFilesDrawerOpen = true))
-
-        is HubCommand.CloseDrawer -> transition(state.copy(isFilesDrawerOpen = false))
     }
 }

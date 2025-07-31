@@ -33,7 +33,7 @@ private val descriptor = module {
 private val generation = module {
     single { GenerationService.Default() } bind GenerationService::class
     single { GenerationRepository.Default(get(), get()) } bind GenerationRepository::class
-    factory { GenerateRandomRequest(get()) }
+    single { GenerateRandomRequest(get()) }
 }
 
 private val client = module {
@@ -44,31 +44,30 @@ private val client = module {
 private val file = module {
     single { FileService.Default() } bind FileService::class
     single { FileRepository.Default(get()) } bind FileRepository::class
-    factory { GetFiles(get()) }
-    factory { UploadFile(get()) }
-    factory { DeleteFile(get()) }
+    single { GetFiles(get()) }
+    single { UploadFile(get()) }
+    single { DeleteFile(get()) }
 }
 
 private val method = module {
-    factory { InvokeCallMethod(get()) }
-    factory { InvokeStreamMethod(get()) }
+    single { InvokeCallMethod(get()) }
+    single { InvokeStreamMethod(get()) }
 }
 
 private val hub = module {
-    factory { HubReducer(get(), get(), get()) }
-    single { HubFeature(get()) }
+    single { HubReducer(get(), get(), get()) }
+    factory { HubFeature(get()) } onClose { it?.close() }
 }
 
 private val interaction = module {
-    factory { InteractionCommunicationReducer(get(), get()) }
-    factory { InteractionReducer(get(), get()) }
-    single { (service: Service) -> InteractionFeature(service = service, reducer = get()) } onClose { it?.close() }
+    single { InteractionCommunicationReducer(get(), get()) }
+    single { InteractionReducer(get(), get()) }
+    factory { (service: Service) -> InteractionFeature(service = service, reducer = get()) } onClose { it?.close() }
 }
 
 private val navigation = module {
     single { NavigationReducer() }
-
-    single { NavigationFeature(get()) } onClose { it?.close() }
+    factory { NavigationFeature(get()) } onClose { it?.close() }
 }
 
 internal val appModule = channel + descriptor + generation + client + file + method + hub + interaction + navigation

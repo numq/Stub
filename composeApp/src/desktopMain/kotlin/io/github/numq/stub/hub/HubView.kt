@@ -9,6 +9,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Code
 import androidx.compose.material.icons.filled.CodeOff
 import androidx.compose.material.icons.filled.Reorder
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
@@ -17,9 +20,7 @@ import androidx.compose.ui.draganddrop.DragAndDropTarget
 import androidx.compose.ui.draganddrop.DragData
 import androidx.compose.ui.draganddrop.dragData
 import androidx.compose.ui.unit.dp
-import io.github.numq.stub.drawer.CustomModalDrawer
 import io.github.numq.stub.interaction.InteractionView
-import io.github.numq.stub.proto.ProtoFile
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import org.koin.core.parameter.parametersOf
@@ -35,6 +36,8 @@ fun HubView(feature: HubFeature = koinInject(), openFileDialog: () -> List<Strin
     val state by feature.state.collectAsState()
 
     val coroutineScope = rememberCoroutineScope()
+
+    val filesDrawerState = androidx.compose.material3.rememberDrawerState(DrawerValue.Closed)
 
     val previewDrawerState = rememberBottomDrawerState(BottomDrawerValue.Closed)
 
@@ -66,14 +69,6 @@ fun HubView(feature: HubFeature = koinInject(), openFileDialog: () -> List<Strin
         }
     }
 
-    LaunchedEffect(state.protoFiles) {
-        state.protoFiles.firstOrNull { it is ProtoFile.Loaded }?.let { protoFile ->
-            (protoFile as? ProtoFile.Loaded)?.services?.firstOrNull()?.let { service ->
-                feature.execute(HubCommand.SelectService(protoFile = protoFile, service = service))
-            }
-        }
-    }
-
     Scaffold(modifier = Modifier.fillMaxSize().dragAndDropTarget(shouldStartDragAndDrop = { event ->
         event.dragData() !is DragData.Image
     }, dropTarget), topBar = {
@@ -85,9 +80,9 @@ fun HubView(feature: HubFeature = koinInject(), openFileDialog: () -> List<Strin
             IconButton(onClick = {
                 coroutineScope.launch {
                     when {
-                        state.isFilesDrawerOpen -> feature.execute(HubCommand.CloseDrawer)
+                        filesDrawerState.isOpen -> filesDrawerState.close()
 
-                        else -> feature.execute(HubCommand.OpenDrawer)
+                        else -> filesDrawerState.open()
                     }
                 }
             }) {
@@ -121,30 +116,30 @@ fun HubView(feature: HubFeature = koinInject(), openFileDialog: () -> List<Strin
             }
         }, modifier = Modifier.fillMaxWidth())
     }) { paddingValues ->
-        CustomModalDrawer(
+        ModalNavigationDrawer(
             modifier = Modifier.fillMaxSize().padding(paddingValues),
-            isOpen = state.isFilesDrawerOpen,
-            openDrawer = { isOpen ->
-                coroutineScope.launch {
-                    feature.execute(if (isOpen) HubCommand.OpenDrawer else HubCommand.CloseDrawer)
-                }
-            },
+            drawerState = filesDrawerState,
             drawerContent = {
-                UploadedFiles(files = state.protoFiles, openFileDialog = {
-                    openFileDialog().let(::uploadFiles)
-                }, deleteFile = { protoFile ->
-                    coroutineScope.launch {
-                        feature.execute(command = HubCommand.DeleteFile(protoFile = protoFile))
-                    }
-                }, selectedService = state.selectedService, selectService = { protoFile, service ->
-                    coroutineScope.launch {
-                        feature.execute(HubCommand.SelectService(protoFile = protoFile, service = service))
-                    }
-                }, deselectService = {
-                    coroutineScope.launch {
-                        feature.execute(HubCommand.DeselectService)
-                    }
-                })
+                ModalDrawerSheet(
+                    drawerState = filesDrawerState,
+                    drawerContainerColor = MaterialTheme.colors.background
+                ) {
+                    UploadedFiles(files = state.protoFiles, openFileDialog = {
+                        openFileDialog().let(::uploadFiles)
+                    }, deleteFile = { protoFile ->
+                        coroutineScope.launch {
+                            feature.execute(command = HubCommand.DeleteFile(protoFile = protoFile))
+                        }
+                    }, selectedService = state.selectedService, selectService = { protoFile, service ->
+                        coroutineScope.launch {
+                            feature.execute(HubCommand.SelectService(protoFile = protoFile, service = service))
+                        }
+                    }, deselectService = {
+                        coroutineScope.launch {
+                            feature.execute(HubCommand.DeselectService)
+                        }
+                    })
+                }
             },
             content = {
                 state.selectedService?.let { service ->

@@ -12,7 +12,7 @@ data class InteractionState(
     val selectedMethod: Method? = null,
     val isConnected: Boolean = false,
     val events: List<ClientEvent> = emptyList(),
-    val address: String = "127.0.0.1:8000",
+    val address: String = "",
     val body: String = "",
     val metadata: String = "",
     val inputMessages: Channel<InputMessage>? = null,

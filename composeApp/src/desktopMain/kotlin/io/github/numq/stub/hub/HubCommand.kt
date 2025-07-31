@@ -15,8 +15,4 @@ sealed interface HubCommand {
     data class SelectService(val protoFile: ProtoFile, val service: Service) : HubCommand
 
     data object DeselectService : HubCommand
-
-    data object OpenDrawer : HubCommand
-
-    data object CloseDrawer : HubCommand
 }

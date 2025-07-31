@@ -30,29 +30,29 @@ fun UploadedFiles(
 ) {
     val listState = rememberLazyListState()
 
-    Card {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceBetween
-        ) {
-            OutlinedButton(onClick = openFileDialog, modifier = Modifier.padding(8.dp)) {
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(8.dp), horizontalArrangement = Arrangement.spacedBy(
-                        space = 8.dp, alignment = Alignment.CenterHorizontally
-                    ), verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text("Upload files")
-                    Icon(Icons.Default.UploadFile, null)
-                }
-            }
-            LazyColumn(
-                modifier = Modifier.weight(1f).padding(8.dp),
-                horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.Top,
-                state = listState
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        OutlinedButton(onClick = openFileDialog, modifier = Modifier.padding(8.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(8.dp), horizontalArrangement = Arrangement.spacedBy(
+                    space = 8.dp, alignment = Alignment.CenterHorizontally
+                ), verticalAlignment = Alignment.CenterVertically
             ) {
-                itemsIndexed(files, key = { _, item -> item.id }) { index, file ->
+                Text("Upload files")
+                Icon(Icons.Default.UploadFile, null)
+            }
+        }
+        LazyColumn(
+            modifier = Modifier.weight(1f).padding(8.dp),
+            horizontalAlignment = Alignment.Start,
+            verticalArrangement = Arrangement.Top,
+            state = listState
+        ) {
+            itemsIndexed(files, key = { _, item -> item.id }) { index, file ->
+                Card {
                     when (file) {
                         is ProtoFile.Uploaded -> ProtoFileUploadedItem(file = file, delete = deleteFile)
 
@@ -66,9 +66,9 @@ fun UploadedFiles(
                             }, delete = deleteFile
                         )
                     }
-                    if (index < files.lastIndex) {
-                        Spacer(modifier = Modifier.padding(vertical = 4.dp))
-                    }
+                }
+                if (index < files.lastIndex) {
+                    Spacer(modifier = Modifier.padding(vertical = 4.dp))
                 }
             }
         }

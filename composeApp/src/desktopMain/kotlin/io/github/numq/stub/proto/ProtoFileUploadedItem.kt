@@ -1,7 +1,6 @@
 package io.github.numq.stub.proto
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
@@ -18,28 +17,26 @@ fun ProtoFileUploadedItem(
     file: ProtoFile.Uploaded,
     delete: (ProtoFile.Uploaded) -> Unit,
 ) {
-    Card {
-        Column(
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.Start,
+        verticalArrangement = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterVertically)
+    ) {
+        Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.Start,
-            verticalArrangement = Arrangement.spacedBy(space = 8.dp, alignment = Alignment.CenterVertically)
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(text = file.name, modifier = Modifier.padding(8.dp))
-                IconButton(onClick = {
-                    delete(file)
-                }) {
-                    Icon(Icons.Default.DeleteForever, null)
-                }
+            Text(text = file.name, modifier = Modifier.padding(8.dp))
+            IconButton(onClick = {
+                delete(file)
+            }) {
+                Icon(Icons.Default.DeleteForever, null)
             }
-            Text("Missing dependencies:", modifier = Modifier.padding(8.dp), color = Color.Red)
-            file.missingDependencies.forEach { missingDependency ->
-                Text(missingDependency, modifier = Modifier.padding(8.dp), color = Color.Red)
-            }
+        }
+        Text("Missing dependencies:", modifier = Modifier.padding(8.dp), color = Color.Red)
+        file.missingDependencies.forEach { missingDependency ->
+            Text(missingDependency, modifier = Modifier.padding(8.dp), color = Color.Red)
         }
     }
 }
