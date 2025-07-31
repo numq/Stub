@@ -70,4 +70,4 @@ private val navigation = module {
     factory { NavigationFeature(get()) } onClose { it?.close() }
 }
 
-internal val appModule = channel + descriptor + generation + client + file + method + hub + interaction + navigation
+internal val appModule = listOf(channel, descriptor, generation, client, file, method, hub, interaction, navigation)
