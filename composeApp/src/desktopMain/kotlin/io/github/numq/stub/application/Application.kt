@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.application
 import io.github.numq.stub.decoration.WindowDecoration
+import io.github.numq.stub.decoration.WindowDecorationColors
 import io.github.numq.stub.di.appModule
 import io.github.numq.stub.navigation.NavigationView
 import io.github.numq.stub.theme.StubTheme
@@ -38,6 +39,13 @@ fun main() {
             WindowDecoration(
                 minWindowSize = minWindowSize,
                 decorationHeight = decorationHeight,
+                windowDecorationColors = WindowDecorationColors(
+                    surface = MaterialTheme.colors.surface,
+                    switchSchemeButton = MaterialTheme.colors.primary,
+                    minimizeButton = MaterialTheme.colors.primary,
+                    fullscreenButton = MaterialTheme.colors.primary,
+                    closeButton = MaterialTheme.colors.primary
+                ),
                 isDarkTheme = isDarkTheme,
                 setIsDarkTheme = setIsDarkTheme,
                 close = { exitProcess(0) },
