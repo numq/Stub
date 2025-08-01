@@ -148,51 +148,58 @@ fun WindowDecoration(
                         decoration()
                     }
                 }
-                Box(
-                    modifier = Modifier.fillMaxHeight().aspectRatio(1f)
-                        .clickable(enabled = windowDecorationColors.switchSchemeButton.isSpecified) {
-                            setIsDarkTheme(!isDarkTheme)
-                        }, contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        if (isDarkTheme) Icons.Default.DarkMode else Icons.Default.LightMode,
-                        null,
-                        tint = windowDecorationColors.switchSchemeButton
-                    )
+                if (windowDecorationColors.switchSchemeButton.isSpecified) {
+                    Box(
+                        modifier = Modifier.fillMaxHeight().aspectRatio(1f)
+                            .clickable {
+                                setIsDarkTheme(!isDarkTheme)
+                            }, contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            if (isDarkTheme) Icons.Default.DarkMode else Icons.Default.LightMode,
+                            null,
+                            tint = windowDecorationColors.switchSchemeButton
+                        )
+                    }
                 }
-                Box(
-                    modifier = Modifier.fillMaxHeight().aspectRatio(1f)
-                        .clickable(enabled = windowDecorationColors.minimizeButton.isSpecified) {
+                if (windowDecorationColors.minimizeButton.isSpecified) {
+                    Box(
+                        modifier = Modifier.fillMaxHeight().aspectRatio(1f).clickable {
                             SwingUtilities.invokeLater {
                                 window.extendedState = Frame.ICONIFIED
                             }
                         }, contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        Icons.Default.Minimize, null, tint = windowDecorationColors.minimizeButton
-                    )
+                    ) {
+                        Icon(
+                            Icons.Default.Minimize, null, tint = windowDecorationColors.minimizeButton
+                        )
+                    }
                 }
-                Box(
-                    modifier = Modifier.fillMaxHeight().aspectRatio(1f)
-                        .clickable(enabled = windowDecorationColors.fullscreenButton.isSpecified) {
+                if (windowDecorationColors.fullscreenButton.isSpecified) {
+                    Box(
+                        modifier = Modifier.fillMaxHeight().aspectRatio(1f).clickable {
                             isFullscreen = !isFullscreen
                         }, contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        if (isFullscreen) Icons.Default.FullscreenExit else Icons.Default.Fullscreen,
-                        null,
-                        tint = windowDecorationColors.fullscreenButton
-                    )
+                    ) {
+                        Icon(
+                            if (isFullscreen) Icons.Default.FullscreenExit else Icons.Default.Fullscreen,
+                            null,
+                            tint = windowDecorationColors.fullscreenButton
+                        )
+                    }
                 }
-                Box(
-                    modifier = Modifier.fillMaxHeight().aspectRatio(1f)
-                        .clickable(enabled = windowDecorationColors.closeButton.isSpecified) {
+                if (windowDecorationColors.closeButton.isSpecified) {
+                    Box(
+                        modifier = Modifier.fillMaxHeight().aspectRatio(1f).clickable {
                             close()
                         }, contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        Icons.Default.Close, null, tint = windowDecorationColors.closeButton
-                    )
+                    ) {
+                        Icon(
+                            Icons.Default.Close,
+                            null,
+                            tint = windowDecorationColors.closeButton
+                        )
+                    }
                 }
             }
             Box(modifier = Modifier.weight(1f)) {
