@@ -1,10 +1,6 @@
 package io.github.numq.stub.method
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Card
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.CallMade
 import androidx.compose.material.icons.automirrored.filled.CallReceived
@@ -12,6 +8,10 @@ import androidx.compose.material.icons.filled.Cancel
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.material.icons.filled.Link
 import androidx.compose.material.icons.filled.LinkOff
+import androidx.compose.material3.Card
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -80,7 +80,7 @@ fun MethodCallEvent(event: ClientEvent) {
             }
             when (event) {
                 is ClientEvent.Request -> {
-                    Divider()
+                    HorizontalDivider()
                     Text(
                         event.inputMessage.body.takeIf(String::isNotBlank) ?: "{\n}",
                         modifier = Modifier.fillMaxWidth().padding(4.dp)
@@ -88,7 +88,7 @@ fun MethodCallEvent(event: ClientEvent) {
                 }
 
                 is ClientEvent.Response -> {
-                    Divider()
+                    HorizontalDivider()
                     Text(
                         event.outputMessage.body.takeIf(String::isNotBlank) ?: "{\n}",
                         modifier = Modifier.fillMaxWidth().padding(4.dp)

@@ -6,5 +6,4 @@ import io.github.numq.stub.service.Service
 data class HubState(
     val protoFiles: List<ProtoFile> = emptyList(),
     val selectedService: Service? = null,
-    val isFilesDrawerOpen: Boolean = false,
 )

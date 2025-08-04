@@ -1,8 +1,8 @@
 package io.github.numq.stub.theme
 
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Shapes
-import androidx.compose.material.Typography
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Shapes
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 
 @Composable
@@ -10,10 +10,8 @@ fun StubTheme(
     isDarkTheme: Boolean,
     content: @Composable () -> Unit,
 ) {
-    val colors = if (isDarkTheme) DarkColorPalette else LightColorPalette
-
     MaterialTheme(
-        colors = colors,
+        colorScheme = if (isDarkTheme) DarkColorScheme else LightColorScheme,
         typography = Typography(),
         shapes = Shapes(),
         content = content

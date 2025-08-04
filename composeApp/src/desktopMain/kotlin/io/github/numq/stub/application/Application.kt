@@ -1,10 +1,11 @@
 package io.github.numq.stub.application
 
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.application
@@ -17,13 +18,10 @@ import org.koin.compose.koinInject
 import org.koin.core.context.startKoin
 import java.awt.FileDialog
 import java.io.FilenameFilter
-import kotlin.system.exitProcess
 
 private const val APP_NAME = "Stub"
 
-private val minWindowSize = DpSize(768.dp, 512.dp)
-
-private val decorationHeight = 32.dp
+private val minimumWindowSize = DpSize(768.dp, 512.dp)
 
 fun main() {
     startKoin { modules(appModule) }
@@ -37,20 +35,13 @@ fun main() {
 
         StubTheme(isDarkTheme = isDarkTheme) {
             WindowDecoration(
-                minWindowSize = minWindowSize,
-                decorationHeight = decorationHeight,
-                windowDecorationColors = WindowDecorationColors(
-                    surface = MaterialTheme.colors.surface,
-                    switchSchemeButton = MaterialTheme.colors.primary,
-                    minimizeButton = MaterialTheme.colors.primary,
-                    fullscreenButton = MaterialTheme.colors.primary,
-                    closeButton = MaterialTheme.colors.primary
-                ),
                 isDarkTheme = isDarkTheme,
                 setIsDarkTheme = setIsDarkTheme,
-                close = { exitProcess(0) },
-                decoration = {
-                    Text(APP_NAME, color = MaterialTheme.colors.primary)
+                initialWindowSize = minimumWindowSize,
+                minimumWindowSize = minimumWindowSize,
+                windowDecorationColors = WindowDecorationColors().copy(switchSchemeButton = { Color.Unspecified }),
+                title = {
+                    Text(APP_NAME, color = MaterialTheme.colorScheme.primary)
                 },
                 content = {
                     NavigationView(feature = koinInject(), openFileDialog = {
