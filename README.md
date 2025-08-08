@@ -2,6 +2,18 @@
 
 # Stub
 
-Client for testing gRPC services
+Desktop client for testing gRPC services
 
 ![Preview](./media/preview.png)
+
+> The application was designed using the [Reduce & Conquer](https://github.com/numq/reduce-and-conquer) architectural
+> pattern
+
+## Features:
+
+- All types of calls are supported (Unary, Client, Server, Bidirectional)
+- Request (messages) in JSON format
+- Metadata in JSON format
+- Generating a request with random data
+- Notification about missing dependencies
+- Preview of the proto file
